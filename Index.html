@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WEBFOR Telecomunicações | Internet Fibra Óptica em Formiga/MG</title>
+    <!-- Fonte moderna do Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Ícones profissionais -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        /* ================= VARIÁVEIS DE CORES ================= */
+        :root {
+            --azul-escuro: #0A2540;   
+            --azul-primario: #0066CC; 
+            --azul-claro: #E6F0FA;    
+            --azul-destaque: #00A8E8; 
+            --texto-escuro: #333333;
+            --texto-cinza: #666666;
+            --branco: #FFFFFF;
+        }
+
+        /* ================= RESET ================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: #F8FAFC;
+            color: var(--texto-escuro);
+            line-height: 1.6;
+        }
+
+        /* ================= CABEÇALHO ================= */
+        header {
+            background-color: var(--branco);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo-img-header {
+            height: 60px; /* Tamanho ajustado da logo */
+            width: auto;
+            display: block;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--texto-escuro);
+            font-weight: 600;
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--azul-primario); }
+
+        .btn-header {
+            background: linear-gradient(135deg, var(--azul-primario), var(--azul-destaque));
+            color: var(--branco) !important;
+            padding: 10px 25px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn-header:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 102, 204, 0.5);
+        }
+
+        /* ================= SLIDER DE IMAGENS AUTOMÁTICO ================= */
+        .slider-wrapper {
+            position: relative;
+            width: 100%;
+            /* Não definimos altura fixa aqui, deixamos a imagem ditar a altura ou usamos um max-height */
+            max-height: 600px; 
+            background-color: var(--azul-escuro);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+        }
+
+        /* Ajuste para que a imagem do banner apareça inteira e responsiva */
+        .slide img {
+            width: 100%;
+            max-height: 600px;
+            object-fit: contain; /* 'contain' garante que a imagem não seja cortada */
+            object-position: center;
+            background-color: var(--azul-escuro); /* Fundo caso a imagem não preencha tudo */
+        }
+
+        /* Setas de navegação */
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+            transition: 0.3s ease;
+            border-radius: 50%;
+            user-select: none;
+            background-color: rgba(0, 0, 0, 0.5);
+            margin: 0 20px;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .next { right: 0; }
+        .prev:hover, .next:hover { background-color: var(--azul-primario); }
+
+        /* Indicadores (Bolinhas) ajustados */
+        .dots-container {
+            position: absolute;
+            bottom: 15px;
+            width: 100%;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .dot {
+            cursor: pointer;
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            margin: 0 5px;
+            background-color: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            transition: background-color 0.6s ease;
+        }
+
+        .active, .dot:hover { background-color: #00A8E8; width: 25px; border-radius: 10px; }
+
+        /* Animação suave de transição */
+        .fade {
+            animation-name: fadeAnim;
+            animation-duration: 1.5s;
+        }
+        @keyframes fadeAnim {
+            from { opacity: 0.5; }
+            to { opacity: 1; }
+        }
+
+        /* ================= CHAMADA AÇÃO ABAIXO DO BANNER ================= */
+        .chamada-acao {
+            background-color: var(--branco);
+            text-align: center;
+            padding: 40px 20px 0 20px;
+        }
+        
+        .chamada-acao h2 {
+            font-size: 28px;
+            color: var(--azul-escuro);
+            margin-bottom: 15px;
+        }
+
+        .btn-destaque-banner {
+            background: linear-gradient(135deg, var(--azul-primario), var(--azul-destaque));
+            color: var(--branco);
+            text-decoration: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: 800;
+            border-radius: 50px;
+            transition: all 0.3s;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
+            margin-top: 10px;
+        }
+
+        .btn-destaque-banner:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 102, 204, 0.5);
+        }
+
+        /* ================= VANTAGENS ================= */
+        .vantagens {
+            padding: 50px 5% 60px 5%;
+            background-color: var(--branco);
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .vantagem-item {
+            text-align: center;
+            max-width: 250px;
+            padding: 20px;
+        }
+
+        .vantagem-item i {
+            font-size: 40px;
+            color: var(--azul-primario);
+            margin-bottom: 15px;
+            background: var(--azul-claro);
+            width: 80px; height: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+        }
+
+        .vantagem-item h3 { font-size: 18px; margin-bottom: 10px; color: var(--azul-escuro); }
+        .vantagem-item p { font-size: 14px; color: var(--texto-cinza); }
+
+        /* ================= PLANOS ================= */
+        .planos-section {
+            padding: 80px 5%;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .titulo-secao { font-size: 36px; color: var(--azul-escuro); margin-bottom: 15px; }
+        .subtitulo-secao { color: var(--texto-cinza); margin-bottom: 50px; font-size: 16px; }
+
+        .plan-cards { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+
+        .card {
+            background-color: var(--branco);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            padding: 40px 30px;
+            width: 320px;
+            transition: all 0.3s;
+            position: relative;
+            border: 1px solid #E2E8F0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 102, 204, 0.15);
+            border-color: var(--azul-primario);
+        }
+
+        .card.destaque {
+            background: linear-gradient(135deg, var(--azul-escuro), var(--azul-primario));
+            color: var(--branco);
+            transform: scale(1.05);
+            border: none;
+        }
+
+        .card.destaque:hover { transform: scale(1.05) translateY(-10px); }
+
+        .selo-popular {
+            position: absolute; top: -15px; left: 50%;
+            transform: translateX(-50%);
+            background: #FFD700; color: #000;
+            padding: 5px 15px; border-radius: 20px;
+            font-size: 12px; font-weight: bold; text-transform: uppercase;
+        }
+
+        .card-tipo { font-size: 16px; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; margin-bottom: 15px; }
+        .card.destaque .card-tipo { color: #48CAE4; }
+
+        .card-velocidade { font-size: 55px; font-weight: 800; margin-bottom: 5px; line-height: 1; color: var(--azul-primario); }
+        .card.destaque .card-velocidade { color: var(--branco); }
+
+        .card-preco { font-size: 32px; font-weight: 700; margin-bottom: 20px; }
+        .card-preco span { font-size: 16px; font-weight: 400; color: var(--texto-cinza); }
+        .card.destaque .card-preco span { color: #E2E8F0; }
+
+        .card-desc { font-size: 14px; margin-bottom: 30px; height: 60px; color: var(--texto-cinza); }
+        .card.destaque .card-desc { color: #E2E8F0; }
+
+        .btn-contratar {
+            display: block; background-color: var(--azul-claro); color: var(--azul-primario);
+            text-decoration: none; padding: 15px; border-radius: 30px;
+            font-weight: bold; transition: all 0.3s;
+            margin-top: auto;
+        }
+
+        .card.destaque .btn-contratar { background-color: #48CAE4; color: var(--azul-escuro); }
+
+        .btn-contratar:hover { background-color: var(--azul-primario); color: var(--branco); }
+        .card.destaque .btn-contratar:hover { background-color: var(--branco); }
+
+        /* ================= CENTRAL DO ASSINANTE ================= */
+        .central-section { background-color: var(--azul-claro); padding: 80px 5%; }
+
+        .central-container { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 60px; flex-wrap: wrap; }
+
+        .central-info { flex: 1; min-width: 300px; }
+        .central-info h2 { font-size: 38px; color: var(--azul-escuro); margin-bottom: 20px; }
+        .central-info p { font-size: 16px; margin-bottom: 30px; color: var(--texto-cinza); }
+        
+        .central-info ul { list-style: none; }
+        .central-info ul li { font-size: 16px; margin-bottom: 15px; display: flex; align-items: center; color: var(--texto-escuro); font-weight: 500; }
+        .central-info ul li i { color: var(--azul-primario); font-size: 20px; margin-right: 15px; }
+
+        .login-box { flex: 1; min-width: 320px; background: var(--branco); padding: 40px; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.08); }
+        .login-box h3 { text-align: center; color: var(--azul-escuro); margin-bottom: 30px; font-size: 24px; }
+
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; margin-bottom: 8px; color: var(--texto-escuro); font-weight: 600; font-size: 14px; }
+        .input-group input { width: 100%; padding: 14px; border: 2px solid #E2E8F0; border-radius: 10px; font-size: 15px; outline: none; transition: border 0.3s; }
+        .input-group input:focus { border-color: var(--azul-primario); }
+
+        .btn-login { width: 100%; background-color: var(--azul-primario); color: var(--branco); border: none; padding: 16px; font-size: 16px; font-weight: bold; border-radius: 10px; cursor: pointer; transition: background 0.3s; margin-top: 10px; }
+        .btn-login:hover { background-color: var(--azul-escuro); }
+
+        /* ================= RODAPÉ ================= */
+        footer { background-color: var(--azul-escuro); color: #CBD5E1; padding: 60px 20px 20px 20px; text-align: center; }
+
+        .footer-logo { margin-bottom: 30px; display: flex; justify-content: center; align-items: center; }
+
+        .logo-img-footer { 
+            height: 60px; 
+            width: auto; 
+            background-color: var(--branco); 
+            padding: 10px 20px; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .footer-contato { display: flex; justify-content: center; gap: 40px; margin-bottom: 30px; flex-wrap: wrap; }
+        .footer-contato div { display: flex; align-items: center; gap: 10px; font-size: 18px; }
+        .footer-contato i { color: #48CAE4; font-size: 24px; }
+
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; font-size: 14px; }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .slider-wrapper { max-height: 400px; }
+            .central-container { flex-direction: column; }
+            .vantagem-item { width: 100%; max-width: 100%; }
+            .logo-img-header { height: 45px; }
+            .prev, .next { width: 40px; height: 40px; font-size: 18px; }
+            .chamada-acao h2 { font-size: 22px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CABEÇALHO -->
+    <header>
+        <div class="navbar">
+            <a href="#" class="logo">
+                <img src="https://i.pinimg.com/736x/0c/15/4e/0c154e9fee23c4b952e7385dfd1ef559.jpg" alt="WEBFOR Telecomunicações" class="logo-img-header">
+            </a>
+            <ul class="nav-links">
+                <li><a href="#inicio">Início</a></li>
+                <li><a href="#planos">Planos</a></li>
+                <li><a href="#central" class="btn-header"><i class="fas fa-user-circle"></i> Área do Cliente</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- CARROSSEL DE IMAGENS AUTOMÁTICO (HERO) SEM TEXTO SOBREPOSTO -->
+    <section id="inicio" class="slider-wrapper">
+        
+        <!-- Slide 1 -->
+        <div class="slide fade">
+            <img src="https://i.pinimg.com/736x/e3/f6/e0/e3f6e0f1dec54c21a51e065f9e71a306.jpg" alt="Banner Planos Webfor 1">
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide fade">
+            <img src="https://i.pinimg.com/736x/c3/9a/7e/c39a7ede84b3b9635c9f69ec36b35d69.jpg" alt="Banner Planos Webfor 2">
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide fade">
+            <img src="https://i.pinimg.com/736x/12/32/3c/12323c9613f242296958dc9d8785f976.jpg" alt="Banner Planos Webfor 3">
+        </div>
+
+        <!-- Botões Voltar e Avançar -->
+        <a class="prev" onclick="mudarSlide(-1)"><i class="fas fa-chevron-left"></i></a>
+        <a class="next" onclick="mudarSlide(1)"><i class="fas fa-chevron-right"></i></a>
+
+        <!-- Indicadores (Bolinhas) -->
+        <div class="dots-container">
+            <span class="dot" onclick="irParaSlide(1)"></span>
+            <span class="dot" onclick="irParaSlide(2)"></span>
+            <span class="dot" onclick="irParaSlide(3)"></span>
+        </div>
+    </section>
+
+    <!-- CHAMADA PARA AÇÃO LOGO ABAIXO DO BANNER -->
+    <section class="chamada-acao">
+        <h2>A conexão que sua casa e empresa precisam!</h2>
+        <a href="#planos" class="btn-destaque-banner">Ver Nossos Planos</a>
+    </section>
+
+    <!-- VANTAGENS -->
+    <section id="vantagens" class="vantagens">
+        <div class="vantagem-item">
+            <i class="fas fa-rocket"></i>
+            <h3>100% Fibra Óptica</h3>
+            <p>Tecnologia de ponta que garante a velocidade contratada direto na sua casa.</p>
+        </div>
+        <div class="vantagem-item">
+            <i class="fas fa-headset"></i>
+            <h3>Suporte Técnico</h3>
+            <p>Equipe local pronta para te atender de forma rápida e humanizada.</p>
+        </div>
+        <div class="vantagem-item">
+            <i class="fas fa-gamepad"></i>
+            <h3>Alta Estabilidade</h3>
+            <p>Perfeito para jogos online, streaming em 4K e vídeos chamadas sem travamentos.</p>
+        </div>
+    </section>
+
+    <!-- PLANOS -->
+    <section id="planos" class="planos-section">
+        <h2 class="titulo-secao">Escolha o plano perfeito para você</h2>
+        <p class="subtitulo-secao">Conexão de verdade com preços que cabem no seu bolso.</p>
+        
+        <div class="plan-cards">
+            <!-- Plano 1 -->
+            <div class="card">
+                <div class="card-tipo">Iniciante</div>
+                <div class="card-velocidade">300<span style="font-size: 24px;">MB</span></div>
+                <div class="card-preco">R$ 79,90<span>/mês</span></div>
+                <p class="card-desc">Ideal para uso diário: redes sociais, vídeos no YouTube e navegação básica.</p>
+                <a href="https://wa.me/5537999297478?text=Olá, quero contratar o plano Iniciante de 300MB." target="_blank" class="btn-contratar"><i class="fab fa-whatsapp"></i> Contratar Agora</a>
+            </div>
+
+            <!-- Plano 2 (Destaque) -->
+            <div class="card destaque">
+                <div class="selo-popular">Mais Vendido</div>
+                <div class="card-tipo">Intermediário</div>
+                <div class="card-velocidade">400<span style="font-size: 24px;">MB</span></div>
+                <div class="card-preco">R$ 89,90<span>/mês</span></div>
+                <p class="card-desc">Perfeito para famílias: conecte celulares, Smart TVs e notebooks ao mesmo tempo.</p>
+                <a href="https://wa.me/5537999297478?text=Olá, quero contratar o plano Intermediário de 400MB." target="_blank" class="btn-contratar"><i class="fab fa-whatsapp"></i> Contratar Agora</a>
+            </div>
+
+            <!-- Plano 3 -->
+            <div class="card">
+                <div class="card-tipo">Avançado</div>
+                <div class="card-velocidade">600<span style="font-size: 24px;">MB</span></div>
+                <div class="card-preco">R$ 99,90<span>/mês</span></div>
+                <p class="card-desc">Alta performance: Trabalhe em Home Office, baixe arquivos pesados e jogue sem lag.</p>
+                <a href="https://wa.me/5537999297478?text=Olá, quero contratar o plano Avançado de 600MB." target="_blank" class="btn-contratar"><i class="fab fa-whatsapp"></i> Contratar Agora</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CENTRAL DO ASSINANTE -->
+    <section id="central" class="central-section">
+        <div class="central-container">
+            <div class="central-info">
+                <h2>Central do Assinante</h2>
+                <p>Na sua Central do Assinante tem tudo que você procura! Resolva tudo online, com facilidade e segurança.</p>
+                <ul>
+                    <li><i class="fas fa-barcode"></i> Segunda via de boletos fácil</li>
+                    <li><i class="fas fa-unlock-alt"></i> Desbloqueio de conexão em confiança</li>
+                    <li><i class="fas fa-file-invoice-dollar"></i> Emissão de Notas Fiscais</li>
+                    <li><i class="fas fa-chart-line"></i> Acesso a relatórios de consumo</li>
+                    <li><i class="fas fa-tachometer-alt"></i> Controle total da sua internet</li>
+                </ul>
+            </div>
+
+            <div class="login-box">
+                <h3><i class="fas fa-sign-in-alt"></i> Acessar Painel</h3>
+                <form onsubmit="event.preventDefault(); alert('Este formulário será conectado ao sistema do seu provedor.');">
+                    <div class="input-group">
+                        <label for="cpf">CPF ou CNPJ</label>
+                        <input type="text" id="cpf" placeholder="000.000.000-00" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="senha">Senha</label>
+                        <input type="password" id="senha" placeholder="Sua senha de acesso" required>
+                    </div>
+                    <button type="submit" class="btn-login">Entrar na Central</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- RODAPÉ -->
+    <footer>
+        <div class="footer-logo">
+            <img src="https://i.pinimg.com/736x/0c/15/4e/0c154e9fee23c4b952e7385dfd1ef559.jpg" alt="WEBFOR Telecomunicações" class="logo-img-footer">
+        </div>
+        
+        <div class="footer-contato">
+            <div>
+                <i class="fas fa-phone-alt"></i>
+                <span>(37) 3353 - 8601</span>
+            </div>
+            <div>
+                <i class="fab fa-whatsapp"></i>
+                <span>(37) 9 9929-7478</span>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 WEBFOR TELECOMUNICAÇÕES LTDA - CNPJ: 27.102.756/0001-06</p>
+            <p>Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- LÓGICA DO SLIDER EM JAVASCRIPT -->
+    <script>
+        let slideIndex = 1;
+        let timer;
+
+        mostrarSlides(slideIndex);
+        reiniciarTemporizador();
+
+        function mudarSlide(n) {
+            mostrarSlides(slideIndex += n);
+            reiniciarTemporizador();
+        }
+
+        function irParaSlide(n) {
+            mostrarSlides(slideIndex = n);
+            reiniciarTemporizador();
+        }
+
+        function mostrarSlides(n) {
+            let i;
+            let slides = document.getElementsByClassName("slide");
+            let dots = document.getElementsByClassName("dot");
+            
+            if (n > slides.length) { slideIndex = 1 }    
+            if (n < 1) { slideIndex = slides.length }
+            
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";  
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            
+            slides[slideIndex-1].style.display = "block";  
+            dots[slideIndex-1].className += " active";
+        }
+
+        function reiniciarTemporizador() {
+            clearInterval(timer);
+            timer = setInterval(function() {
+                mudarSlide(1);
+            }, 5000); // Muda a imagem a cada 5 segundos
+        }
+    </script>
+
+</body>
+</html>
